@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+class InventoryModel;
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class Widget;
@@ -20,6 +22,8 @@ public:
 private:
     Ui::Widget *ui;
     void initGUI();
+
+    InventoryModel *m_model;
 
 };
 #endif // WIDGET_H
