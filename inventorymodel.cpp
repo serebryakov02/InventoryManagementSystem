@@ -1,6 +1,7 @@
 #include "inventorymodel.h"
 #include "inventoryitem.h"
 #include <QVector>
+#include <QInputDialog>
 
 InventoryModel::InventoryModel(QObject *parent)
     : QAbstractTableModel{parent}, m_items()
@@ -20,7 +21,6 @@ void InventoryModel::initializeItems()
         " automatic movement. Known for its craftsmanship and classic design.");
     m_items.push_back(item1);
 }
-
 
 int InventoryModel::rowCount(const QModelIndex &parent) const
 {
@@ -45,7 +45,6 @@ QVariant InventoryModel::data(const QModelIndex &index, int role) const
     return {};
 }
 
-
 QVariant InventoryModel::headerData(int section, Qt::Orientation orientation,
                                     int role) const
 {
@@ -57,4 +56,51 @@ QVariant InventoryModel::headerData(int section, Qt::Orientation orientation,
         if (section == 4) return QStringLiteral("Rating");
     }
     return QAbstractTableModel::headerData(section, orientation, role);
+}
+
+bool InventoryModel::insertRows(int row, int count, const QModelIndex &parent)
+{
+    Q_UNUSED(count);
+
+    if (row == m_items.size()) {
+        QString productName = QInputDialog::getText(nullptr,
+                                    "Product Name", "Enter product name: ");
+        int quantity = QInputDialog::getInt(nullptr, "Quantity",
+                                    "Enter quantity: ", 0, 0);
+        QString supplier = QInputDialog::getText(nullptr, "Supplier",
+                                                 "Enter supplier name: ");
+        int rating = QInputDialog::getInt(nullptr, "Rating",
+                                "Enter product rating (1-5): ", 1, 1, 5);
+        QString description = QInputDialog::getMultiLineText(nullptr,
+                                "Description", "Enter product description: ");
+
+        InventoryItem *item = new InventoryItem;
+        item->setProductName(productName);
+        item->setQuantity(quantity);
+        item->setSupplier(supplier);
+        item->setRating(rating);
+        item->setDescription(description);
+
+        emit beginInsertRows(parent, row, row);
+        m_items.push_back(item);
+        emit endInsertRows();
+
+        return true;
+    }
+    return false;
+}
+
+bool InventoryModel::removeRows(int row, int count, const QModelIndex &parent)
+{
+    Q_UNUSED(count);
+
+    if (row >= 0 && row < m_items.size()) {
+        InventoryItem *item = m_items.at(row);
+        delete item;
+        emit beginRemoveRows(parent, row, row);
+        m_items.removeAt(row);
+        emit endRemoveRows();
+        return true;
+    }
+    return false;
 }
