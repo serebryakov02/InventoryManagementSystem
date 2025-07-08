@@ -1,6 +1,7 @@
 #include "widget.h"
 #include "./ui_widget.h"
 #include "inventorymodel.h"
+#include "stardelegate.h"
 #include <QMessageBox>
 
 Widget::Widget(QWidget *parent)
@@ -22,7 +23,14 @@ void Widget::initGUI()
 
     m_model = new InventoryModel(this);
     ui->tableView->setModel(m_model);
+    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    StarDelegate *starDelegate = new StarDelegate(this);
+    ui->tableView->setItemDelegateForColumn(4, starDelegate);
     ui->tableView->resizeColumnsToContents();
+    ui->tableView->setColumnWidth(4, 110);
+
+    resize(1024, 768);
 }
 
 void Widget::on_btnAdd_clicked()
@@ -48,5 +56,13 @@ void Widget::on_btnDelete_clicked()
             int rowToRemove = ui->tableView->currentIndex().row();
             m_model->removeRows(rowToRemove, 1);
         }
+    }
+}
+
+void Widget::on_btnEdit_clicked()
+{
+    QModelIndex index = ui->tableView->currentIndex();
+    if (index.isValid()) {
+        ui->tableView->edit(index);
     }
 }

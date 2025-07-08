@@ -21,6 +21,9 @@ public:
                             const QModelIndex &parent = QModelIndex()) override;
     virtual bool removeRows(int row, int count,
                             const QModelIndex &parent = QModelIndex()) override;
+    virtual bool setData(const QModelIndex &index,
+                         const QVariant &value, int role) override;
+    virtual Qt::ItemFlags flags(const QModelIndex &index) const override;
 
 private:
     QVector<InventoryItem*> m_items;

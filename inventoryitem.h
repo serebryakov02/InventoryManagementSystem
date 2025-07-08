@@ -32,7 +32,6 @@ private:
     int       m_rating;
     QString   m_description;
     QDateTime m_lastUpdated;
-
 };
 
 #endif // INVENTORYITEM_H

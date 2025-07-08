@@ -24,11 +24,13 @@ private slots:
 
     void on_btnDelete_clicked();
 
+    void on_btnEdit_clicked();
+
 private:
     Ui::Widget *ui;
     void initGUI();
 
     InventoryModel *m_model;
-
 };
+
 #endif // WIDGET_H
