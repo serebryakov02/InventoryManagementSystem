@@ -2,11 +2,14 @@
 #include "./ui_widget.h"
 #include "inventorymodel.h"
 #include "stardelegate.h"
+#include "supplierdelegate.h"
 #include <QMessageBox>
+#include <QInputDialog>
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
-    , ui(new Ui::Widget)
+    , ui(new Ui::Widget), m_model(nullptr)
+    , m_supplierDelegate(nullptr)
 {
     ui->setupUi(this);
     initGUI();
@@ -27,8 +30,12 @@ void Widget::initGUI()
 
     StarDelegate *starDelegate = new StarDelegate(this);
     ui->tableView->setItemDelegateForColumn(4, starDelegate);
-    ui->tableView->resizeColumnsToContents();
     ui->tableView->setColumnWidth(4, 110);
+
+    m_supplierDelegate = new SupplierDelegate(this);
+    ui->tableView->setItemDelegateForColumn(2, m_supplierDelegate);
+
+    ui->tableView->resizeColumnsToContents();
 
     resize(1024, 768);
 }
@@ -66,3 +73,33 @@ void Widget::on_btnEdit_clicked()
         ui->tableView->edit(index);
     }
 }
+
+void Widget::on_btnManage_clicked()
+{
+    QString suppliers;
+    if (!m_supplierList.isEmpty()) {
+        for (int i = 0; i < m_supplierList.size(); ++i) {
+            suppliers += m_supplierList.at(i);
+            if (i != m_supplierList.size() - 1)
+                suppliers += ", ";
+        }
+    }
+
+    bool ok = false;
+    QString input = QInputDialog::getText(this, "Enter Supplier List",
+                    "Please enter a comma-separated list of supplier names: ",
+                    QLineEdit::Normal, suppliers, &ok);
+    QStringList list;
+    if (ok) {
+        m_supplierList.clear();
+        list = input.split(",");
+        for (auto &supplier : list) {
+            supplier = supplier.trimmed(); // trim whitespace
+            m_supplierList << supplier;
+        }
+
+        if (m_supplierDelegate) // should never be nullptr
+            m_supplierDelegate->setSupplierList(m_supplierList);
+    }
+}
+
