@@ -16,6 +16,7 @@ void InventoryModel::initializeItems()
     item1->setQuantity(10);
     item1->setSupplier("Seiko Japan");
     item1->setRating(5);
+    item1->setImage(QImage(":/Images/SRPB41J1.jpg"));
     item1->setDescription("Elegant men's mechanical watch "
         "featuring a stainless steel case, blue sunburst dial, and"
         " automatic movement. Known for its craftsmanship and classic design.");
@@ -26,6 +27,7 @@ void InventoryModel::initializeItems()
     item2->setQuantity(7);
     item2->setSupplier("Omega SA");
     item2->setRating(5);
+    item2->setImage(QImage(":/Images/omega-speedmaster-moonwatch-professional.png"));
     item2->setDescription("Iconic chronograph with manual winding movement, "
                           "hesalite crystal, and tachymeter bezel. Famously worn during Apollo moon missions.");
     m_items.push_back(item2);
@@ -35,6 +37,7 @@ void InventoryModel::initializeItems()
     item3->setQuantity(5);
     item3->setSupplier("Rolex Geneva");
     item3->setRating(5);
+    item3->setImage(QImage(":/Images/rolex-submariner-date.png"));
     item3->setDescription("Legendary diving watch featuring a black Cerachrom bezel, "
                           "automatic movement, and 300-meter water resistance. A benchmark in luxury sports timepieces.");
     m_items.push_back(item3);
@@ -44,6 +47,7 @@ void InventoryModel::initializeItems()
     item4->setQuantity(12);
     item4->setSupplier("TAG Heuer SA");
     item4->setRating(4);
+    item4->setImage(QImage(":/Images/tag-heuer carrera-calibre-5.png"));
     item4->setDescription("Stylish automatic watch with sapphire case back, "
                           "day-date function, and a clean silver dial. Suited for both professional and casual wear.");
     m_items.push_back(item4);
@@ -71,6 +75,7 @@ void InventoryModel::initializeItems()
     item7->setQuantity(20);
     item7->setSupplier("Casio Tokyo");
     item7->setRating(4);
+    item7->setImage(QImage(":/Images/casio-g-shock ga-2100-1A1.png"));
     item7->setDescription("Durable carbon-core guard structure, analog-digital hybrid display, "
                           "and 200-meter water resistance. A minimalist yet rugged design.");
     m_items.push_back(item7);
@@ -89,6 +94,7 @@ void InventoryModel::initializeItems()
     item9->setQuantity(9);
     item9->setSupplier("Hamilton Watch Company");
     item9->setRating(4);
+    item9->setImage(QImage(":/Images/hamilton-khaki.png"));
     item9->setDescription("Military-inspired manual wind watch with matte stainless steel case, "
                           "durable NATO strap, and 80-hour power reserve. A rugged, utilitarian classic.");
     m_items.push_back(item9);
@@ -215,8 +221,8 @@ bool InventoryModel::setData(const QModelIndex &index, const QVariant &value, in
         switch (index.column()) {
         case 0: item->setProductName(value.toString()); break;
         case 1: item->setQuantity(value.toInt()); break;
-        case 2: item->setSupplier(value.toString()); break; // TODO: custom delegate
-        // TODO case 3: image delegate
+        case 2: item->setSupplier(value.toString()); break;
+        case 3: item->setImage(value.value<QImage>()); break;
         case 4: item->setRating(value.toInt()); break;
         default: return false;
         }

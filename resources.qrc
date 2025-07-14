@@ -1,5 +1,11 @@
 <RCC>
     <qresource prefix="/">
         <file>Images/no_image.jpg</file>
+        <file>Images/SRPB41J1.jpg</file>
+        <file>Images/omega-speedmaster-moonwatch-professional.png</file>
+        <file>Images/rolex-submariner-date.png</file>
+        <file>Images/tag-heuer carrera-calibre-5.png</file>
+        <file>Images/casio-g-shock ga-2100-1A1.png</file>
+        <file>Images/hamilton-khaki.png</file>
     </qresource>
 </RCC>

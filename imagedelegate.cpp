@@ -1,5 +1,6 @@
 #include "imagedelegate.h"
 #include <QPainter>
+#include <QFileDialog>
 
 ImageDelegate::ImageDelegate(QObject *parent)
     : QStyledItemDelegate{parent}
@@ -22,4 +23,22 @@ void ImageDelegate::paint(QPainter *painter,
     } else {
         QStyledItemDelegate::paint(painter, option, index);
     }
+}
+
+QWidget *ImageDelegate::createEditor(QWidget *parent,
+                    const QStyleOptionViewItem &option,
+                    const QModelIndex &index) const
+{
+    QString imagePath = QFileDialog::getOpenFileName(parent, "Select Image", QString(),
+                                 "Images (*.png *.jpg *.jpeg *.bmp *.gif)");
+
+    if (!imagePath.isEmpty()) {
+        QImage image(imagePath);
+        if (!image.isNull()) {
+            QAbstractItemModel *model = const_cast<QAbstractItemModel *>(index.model());
+            model->setData(index, QVariant::fromValue(image), Qt::EditRole);
+        }
+    }
+
+    return nullptr;
 }

@@ -13,6 +13,9 @@ public:
     virtual void paint(QPainter *painter,
             const QStyleOptionViewItem &option,
             const QModelIndex &index) const override;
+    virtual QWidget *createEditor(QWidget *parent,
+            const QStyleOptionViewItem &option,
+            const QModelIndex &index) const override;
 };
 
 #endif // IMAGEDELEGATE_H
