@@ -45,9 +45,14 @@ void StarEditorWidget::paintEvent(QPaintEvent *event)
 
     painter.setBrush(QBrush(Qt::yellow));
 
-    painter.translate(rect().x(), rect().y() + 5);
+    constexpr double scaleFactor = 0.1;
+    int starHeight = 190;
+
+    // Vertically center the star shape within the cell.
+    int translatedY = rect().y() + (rect().height() - starHeight * scaleFactor) / 2;
+    painter.translate(rect().x(), translatedY);
     // The coordinate system is scaled down to 10% of its original size.
-    painter.scale(0.1, 0.1);
+    painter.scale(scaleFactor, scaleFactor);
 
     for (int i = 0; i < m_starRating; ++i) {
         painter.drawPolygon(m_poly);
@@ -69,5 +74,5 @@ void StarEditorWidget::setStarRating(int newStarRating)
 
 // QSize StarEditorWidget::sizeHint() const
 // {
-//     return QSize(110, 25);
+//      return QSize(110, 25);
 // }

@@ -72,9 +72,15 @@ void StarDelegate::paint(QPainter *painter,
         painter->setPen(pen);
         painter->setBrush(QBrush(Qt::yellow));
 
-        painter->translate(option.rect.x(), option.rect.y() + 5);
+        constexpr double scaleFactor = 0.1;
+        int starHeight = 190;
+
+        // Vertically center the star shape within the cell.
+        int translatedY = option.rect.y() + (option.rect.height() -
+                                             starHeight * scaleFactor) / 2;
+        painter->translate(option.rect.x(), translatedY);
         // The coordinate system is scaled down to 10% of its original size.
-        painter->scale(0.1, 0.1);
+        painter->scale(scaleFactor, scaleFactor);
         for (int i = 0; i < starNumber; ++i) {
             painter->drawPolygon(m_poly);
             painter->translate(220, 0);
