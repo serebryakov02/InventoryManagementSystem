@@ -3,6 +3,7 @@
 #include "inventorymodel.h"
 #include "stardelegate.h"
 #include "supplierdelegate.h"
+#include "imagedelegate.h"
 #include <QMessageBox>
 #include <QInputDialog>
 
@@ -26,7 +27,10 @@ void Widget::initGUI()
 
     m_model = new InventoryModel(this);
     ui->tableView->setModel(m_model);
-    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    // We have to call this right here because if we call it later it will
+    // mess up the column width setting with the delegate.
+    ui->tableView->resizeColumnsToContents();
 
     StarDelegate *starDelegate = new StarDelegate(this);
     ui->tableView->setItemDelegateForColumn(4, starDelegate);
@@ -35,7 +39,13 @@ void Widget::initGUI()
     m_supplierDelegate = new SupplierDelegate(this);
     ui->tableView->setItemDelegateForColumn(2, m_supplierDelegate);
 
-    ui->tableView->resizeColumnsToContents();
+    ImageDelegate *imageDelegate = new ImageDelegate(this);
+    ui->tableView->setItemDelegateForColumn(3, imageDelegate);
+    ui->tableView->setColumnWidth(3, 72);
+
+    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->tableView->verticalHeader()->setVisible(false);
+    ui->tableView->verticalHeader()->setDefaultSectionSize(72);
 
     resize(1024, 768);
 }
@@ -77,13 +87,10 @@ void Widget::on_btnEdit_clicked()
 void Widget::on_btnManage_clicked()
 {
     QString suppliers;
-    if (!m_supplierList.isEmpty()) {
-        for (int i = 0; i < m_supplierList.size(); ++i) {
-            suppliers += m_supplierList.at(i);
-            if (i != m_supplierList.size() - 1)
-                suppliers += ", ";
-        }
-    }
+    QStringList listToUse = !m_supplierList.isEmpty()
+            ? m_supplierList
+            : (m_supplierDelegate ? m_supplierDelegate->supplierList() : QStringList());
+    suppliers = listToUse.join(", ");
 
     bool ok = false;
     QString input = QInputDialog::getText(this, "Enter Supplier List",

@@ -28,6 +28,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         stardelegate.h stardelegate.cpp
         stareditorwidget.h stareditorwidget.cpp
         supplierdelegate.h supplierdelegate.cpp
+        resources.qrc
+        imagedelegate.h imagedelegate.cpp
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET InventoryManagementSystem APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

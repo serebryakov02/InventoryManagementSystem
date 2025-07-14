@@ -3,7 +3,14 @@
 
 SupplierDelegate::SupplierDelegate(QObject *parent)
     : QStyledItemDelegate{parent}
-{}
+{
+    m_supplierList = {
+        "Seiko Japan", "Omega SA", "Rolex Geneva", "TAG Heuer SA",
+        "Tissot Switzerland", "Longines SA", "Casio Tokyo",
+        "Citizen Watch Co.", "Hamilton Watch Company",
+        "Breitling SA", "Invicta Watch Group", "Timex USA"
+    };
+}
 
 QWidget *SupplierDelegate::createEditor(QWidget *parent,
             const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -53,4 +60,9 @@ void SupplierDelegate::updateEditorGeometry(QWidget *editor,
 void SupplierDelegate::setSupplierList(const QStringList &newSupplierList)
 {
     m_supplierList = newSupplierList;
+}
+
+QStringList SupplierDelegate::supplierList() const
+{
+    return m_supplierList;
 }

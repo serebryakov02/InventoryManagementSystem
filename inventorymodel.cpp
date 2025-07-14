@@ -138,7 +138,7 @@ QVariant InventoryModel::data(const QModelIndex &index, int role) const
         if (index.column() == 0) return item->productName();
         if (index.column() == 1) return item->quantity();
         if (index.column() == 2) return item->supplier();
-        // TODO: image field
+        if (index.column() == 3) return item->image();
         if (index.column() == 4) return item->rating();
     }
     return {};
@@ -168,6 +168,7 @@ bool InventoryModel::insertRows(int row, int count, const QModelIndex &parent)
                                     "Enter quantity: ", 0, 0);
         QString supplier = QInputDialog::getText(nullptr, "Supplier",
                                                  "Enter supplier name: ");
+        // TODO: image
         int rating = QInputDialog::getInt(nullptr, "Rating",
                                 "Enter product rating (1-5): ", 1, 1, 5);
         QString description = QInputDialog::getMultiLineText(nullptr,
@@ -177,6 +178,7 @@ bool InventoryModel::insertRows(int row, int count, const QModelIndex &parent)
         item->setProductName(productName);
         item->setQuantity(quantity);
         item->setSupplier(supplier);
+        // TODO: image
         item->setRating(rating);
         item->setDescription(description);
 

@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QDateTime>
+#include <QImage>
 
 class InventoryItem : public QObject
 {
@@ -16,6 +17,7 @@ public:
     void setRating(int newRating);
     void setDescription(const QString &newDescription);
     void setLastUpdated(const QDateTime &newLastUpdated);
+    void setImage(const QImage &newImage);
 
     QString productName() const;
     int quantity() const;
@@ -23,15 +25,16 @@ public:
     int rating() const;
     QString description() const;
     QDateTime lastUpdated() const;
+    QImage image() const;
 
 private:
     QString   m_productName;
     int       m_quantity;
     QString   m_supplier;
-    // TODO: Define product image field
+    QImage    m_image;
     int       m_rating;
     QString   m_description;
-    QDateTime m_lastUpdated;
+    QDateTime m_lastUpdated; // TODO: check where and how it is used. Update accordingly
 };
 
 #endif // INVENTORYITEM_H

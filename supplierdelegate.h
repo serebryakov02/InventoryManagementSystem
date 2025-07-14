@@ -22,6 +22,7 @@ public:
                 const QModelIndex &index) const override;
 
     void setSupplierList(const QStringList &newSupplierList);
+    QStringList supplierList() const;
 
 private:
     QStringList m_supplierList;

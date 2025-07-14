@@ -5,6 +5,7 @@ InventoryItem::InventoryItem(QObject *parent)
     : QObject{parent}, m_productName(""), m_quantity(0),
     m_supplier(""), m_rating(0), m_description("")
 {
+    m_image = QImage(":/Images/no_image.jpg");
     m_lastUpdated = QDateTime::currentDateTime();
     qDebug() << m_lastUpdated;
 }
@@ -62,6 +63,16 @@ void InventoryItem::setDescription(const QString &newDescription)
 QDateTime InventoryItem::lastUpdated() const
 {
     return m_lastUpdated;
+}
+
+QImage InventoryItem::image() const
+{
+    return m_image;
+}
+
+void InventoryItem::setImage(const QImage &newImage)
+{
+    m_image = newImage;
 }
 
 void InventoryItem::setLastUpdated(const QDateTime &newLastUpdated)
