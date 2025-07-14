@@ -6,6 +6,7 @@
 #include "imagedelegate.h"
 #include <QMessageBox>
 #include <QInputDialog>
+#include <QSortFilterProxyModel>
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -26,7 +27,15 @@ void Widget::initGUI()
     ui->txtSearch->setPlaceholderText("Enter search terms...");
 
     m_model = new InventoryModel(this);
-    ui->tableView->setModel(m_model);
+
+    auto proxyModel = new QSortFilterProxyModel(this);
+    proxyModel->setSourceModel(m_model);
+    proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    proxyModel->setFilterKeyColumn(2);
+    ui->tableView->setModel(proxyModel);
+
+    QObject::connect(ui->txtSearch, &QLineEdit::textChanged, proxyModel,
+                     &QSortFilterProxyModel::setFilterFixedString);
 
     // We have to call this right here because if we call it later it will
     // mess up the column width setting with the delegate.
