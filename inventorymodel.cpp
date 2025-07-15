@@ -2,11 +2,16 @@
 #include "inventoryitem.h"
 #include <QVector>
 #include <QInputDialog>
+#include <QJsonArray>
+#include <QFile>
+#include <QJsonDocument>
 
 InventoryModel::InventoryModel(QObject *parent)
-    : QAbstractTableModel{parent}, m_items()
+    : QAbstractTableModel{parent}, m_items(),
+    m_fileName("inventory.json")
 {
-    initializeItems();
+    //initializeItems();
+    loadFromJson();
 }
 
 void InventoryModel::initializeItems()
@@ -16,7 +21,7 @@ void InventoryModel::initializeItems()
     item1->setQuantity(10);
     item1->setSupplier("Seiko Japan");
     item1->setRating(5);
-    item1->setImage(QImage(":/Images/SRPB41J1.jpg"));
+    item1->setImagePath(":/Images/SRPB41J1.jpg");
     item1->setDescription("Elegant men's mechanical watch "
         "featuring a stainless steel case, blue sunburst dial, and"
         " automatic movement. Known for its craftsmanship and classic design.");
@@ -27,7 +32,7 @@ void InventoryModel::initializeItems()
     item2->setQuantity(7);
     item2->setSupplier("Omega SA");
     item2->setRating(5);
-    item2->setImage(QImage(":/Images/omega-speedmaster-moonwatch-professional.png"));
+    item2->setImagePath(":/Images/omega-speedmaster-moonwatch-professional.png");
     item2->setDescription("Iconic chronograph with manual winding movement, "
                           "hesalite crystal, and tachymeter bezel. Famously worn during Apollo moon missions.");
     m_items.push_back(item2);
@@ -37,7 +42,7 @@ void InventoryModel::initializeItems()
     item3->setQuantity(5);
     item3->setSupplier("Rolex Geneva");
     item3->setRating(5);
-    item3->setImage(QImage(":/Images/rolex-submariner-date.png"));
+    item3->setImagePath(":/Images/rolex-submariner-date.png");
     item3->setDescription("Legendary diving watch featuring a black Cerachrom bezel, "
                           "automatic movement, and 300-meter water resistance. A benchmark in luxury sports timepieces.");
     m_items.push_back(item3);
@@ -47,7 +52,7 @@ void InventoryModel::initializeItems()
     item4->setQuantity(12);
     item4->setSupplier("TAG Heuer SA");
     item4->setRating(4);
-    item4->setImage(QImage(":/Images/tag-heuer carrera-calibre-5.png"));
+    item4->setImagePath(":/Images/tag-heuer carrera-calibre-5.png");
     item4->setDescription("Stylish automatic watch with sapphire case back, "
                           "day-date function, and a clean silver dial. Suited for both professional and casual wear.");
     m_items.push_back(item4);
@@ -75,7 +80,7 @@ void InventoryModel::initializeItems()
     item7->setQuantity(20);
     item7->setSupplier("Casio Tokyo");
     item7->setRating(4);
-    item7->setImage(QImage(":/Images/casio-g-shock ga-2100-1A1.png"));
+    item7->setImagePath(":/Images/casio-g-shock ga-2100-1A1.png");
     item7->setDescription("Durable carbon-core guard structure, analog-digital hybrid display, "
                           "and 200-meter water resistance. A minimalist yet rugged design.");
     m_items.push_back(item7);
@@ -94,7 +99,7 @@ void InventoryModel::initializeItems()
     item9->setQuantity(9);
     item9->setSupplier("Hamilton Watch Company");
     item9->setRating(4);
-    item9->setImage(QImage(":/Images/hamilton-khaki.png"));
+    item9->setImagePath(":/Images/hamilton-khaki.png");
     item9->setDescription("Military-inspired manual wind watch with matte stainless steel case, "
                           "durable NATO strap, and 80-hour power reserve. A rugged, utilitarian classic.");
     m_items.push_back(item9);
@@ -125,6 +130,63 @@ void InventoryModel::initializeItems()
     item12->setDescription("Casual quartz chronograph with an interchangeable strap system, "
                            "Indiglo night-light, and classic dial layout. Known for practicality and affordability.");
     m_items.push_back(item12);
+}
+
+void InventoryModel::saveDataToJson() const
+{
+    QJsonArray jsonArray;
+    for (const InventoryItem *item : m_items)
+        jsonArray.append(item->toJson());
+
+    QFile file(m_fileName);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        file.write(QJsonDocument(jsonArray).toJson(QJsonDocument::Indented));
+        qDebug() << "success";
+    }
+
+    file.close();
+}
+
+void InventoryModel::loadFromJson()
+{
+    QFile file(m_fileName);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qWarning() << "Failed to open file for reading:" << m_fileName;
+        return;
+    }
+
+    QByteArray data = file.readAll();
+    file.close();
+
+    QJsonParseError parseError;
+    QJsonDocument doc = QJsonDocument::fromJson(data, &parseError);
+
+    if(doc.isNull()) {
+        qWarning() << "JSON parse error:" << parseError.errorString();
+        return;
+    }
+
+    if (!doc.isArray()) {
+        qWarning() << "Expected JSON array in file:" << m_fileName;
+        return;
+    }
+
+    if (!m_items.isEmpty()) {
+        for (int i = 0; i < m_items.size(); ++i)
+            delete m_items.at(i);
+        m_items.clear();
+    }
+
+    QJsonArray array = doc.array();
+    for (const QJsonValue &value : array) {
+        if (!value.isObject())
+            continue;
+
+        QJsonObject obj = value.toObject();
+        InventoryItem *item = new InventoryItem;
+        item->fromJson(obj);
+        m_items.push_back(item);
+    }
 }
 
 int InventoryModel::rowCount(const QModelIndex &parent) const

@@ -33,6 +33,10 @@ private:
     InventoryModel *m_model;
     SupplierDelegate *m_supplierDelegate;
     QStringList m_supplierList;
+
+    // QWidget interface
+protected:
+    virtual void closeEvent(QCloseEvent *event) override;
 };
 
 #endif // WIDGET_H

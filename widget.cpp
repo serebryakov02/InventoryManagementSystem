@@ -119,3 +119,9 @@ void Widget::on_btnManage_clicked()
     }
 }
 
+void Widget::closeEvent(QCloseEvent *event)
+{
+    if (m_model)
+        m_model->saveDataToJson();
+    QWidget::closeEvent(event);
+}

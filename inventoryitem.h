@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDateTime>
 #include <QImage>
+#include <QJsonObject>
 
 class InventoryItem : public QObject
 {
@@ -27,11 +28,18 @@ public:
     QDateTime lastUpdated() const;
     QImage image() const;
 
+    QJsonObject toJson() const;
+    void fromJson(const QJsonObject &obj);
+
+    QString imagePath() const;
+    void setImagePath(const QString &newImagePath);
+
 private:
     QString   m_productName;
     int       m_quantity;
     QString   m_supplier;
     QImage    m_image;
+    QString   m_imagePath;
     int       m_rating;
     QString   m_description;
     QDateTime m_lastUpdated; // TODO: check where and how it is used. Update accordingly

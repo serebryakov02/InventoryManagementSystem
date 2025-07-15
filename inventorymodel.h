@@ -25,9 +25,14 @@ public:
                          const QVariant &value, int role) override;
     virtual Qt::ItemFlags flags(const QModelIndex &index) const override;
 
+    void saveDataToJson() const;
+    void loadFromJson();
+
 private:
     QVector<InventoryItem*> m_items;
     void initializeItems(); // TODO: Replace it with the JSON file
+
+    QString m_fileName;
 };
 
 #endif // INVENTORYMODEL_H
