@@ -26,7 +26,7 @@ public:
     int rating() const;
     QString description() const;
     QDateTime lastUpdated() const;
-    QImage image() const;
+    QImage image();
 
     QJsonObject toJson() const;
     void fromJson(const QJsonObject &obj);

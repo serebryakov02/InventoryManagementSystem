@@ -66,16 +66,19 @@ QDateTime InventoryItem::lastUpdated() const
     return m_lastUpdated;
 }
 
-QImage InventoryItem::image() const
+QImage InventoryItem::image()
 {
-    if (!m_image.isNull())
+    if (!m_image.isNull()) {
         return m_image;
+    }
 
-    QImage loaded = QImage(m_imagePath);
-    if (!loaded.isNull())
+    QImage loaded(m_imagePath);
+    if (!loaded.isNull()) {
+        m_image = loaded;
         return loaded;
+    }
 
-    return QImage(":/Images/no_image.jpg"); // fallback just in caseс
+    return QImage(":/Images/no_image.jpg"); // fallback just in case
 }
 
 QJsonObject InventoryItem::toJson() const

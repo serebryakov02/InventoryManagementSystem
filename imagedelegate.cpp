@@ -37,6 +37,7 @@ QWidget *ImageDelegate::createEditor(QWidget *parent,
         if (!image.isNull()) {
             QAbstractItemModel *model = const_cast<QAbstractItemModel *>(index.model());
             model->setData(index, QVariant::fromValue(image), Qt::EditRole);
+            model->setData(index, imagePath, Qt::UserRole + 1);
         }
     }
 

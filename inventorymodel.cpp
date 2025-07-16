@@ -144,7 +144,6 @@ void InventoryModel::saveDataToJson() const
     QFile file(m_fileName);
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         file.write(QJsonDocument(jsonArray).toJson(QJsonDocument::Indented));
-        qDebug() << "success";
     }
 
     file.close();
@@ -279,9 +278,9 @@ bool InventoryModel::removeRows(int row, int count, const QModelIndex &parent)
 
 bool InventoryModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if (index.isValid() && role == Qt::EditRole) {
+    InventoryItem *item = m_items.at(index.row());
 
-        InventoryItem *item = m_items.at(index.row());
+    if (index.isValid() && role == Qt::EditRole) {
 
         switch (index.column()) {
         case 0: item->setProductName(value.toString()); break;
@@ -293,9 +292,13 @@ bool InventoryModel::setData(const QModelIndex &index, const QVariant &value, in
         }
 
         emit dataChanged(index, index);
-
         return true;
     }
+
+    if (role == Qt::UserRole + 1 && index.column() == 3) {
+        item->setImagePath(value.toString());
+    }
+
     return false;
 }
 
