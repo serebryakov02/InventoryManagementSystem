@@ -31,6 +31,7 @@ public:
 private:
     QVector<InventoryItem*> m_items;
     void initializeItems(); // TODO: Replace it with the JSON file
+    bool m_modified;
 
     QString m_fileName;
 };

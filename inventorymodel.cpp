@@ -5,10 +5,11 @@
 #include <QJsonArray>
 #include <QFile>
 #include <QJsonDocument>
+#include <QMessageBox>
 
 InventoryModel::InventoryModel(QObject *parent)
     : QAbstractTableModel{parent}, m_items(),
-    m_fileName("inventory.json")
+    m_fileName("inventory.json"), m_modified(false)
 {
     //initializeItems();
     loadFromJson();
@@ -137,16 +138,33 @@ void InventoryModel::initializeItems()
 
 void InventoryModel::saveDataToJson() const
 {
-    QJsonArray jsonArray;
-    for (const InventoryItem *item : m_items)
-        jsonArray.append(item->toJson());
+    if (!m_modified)
+        return;
 
-    QFile file(m_fileName);
-    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        file.write(QJsonDocument(jsonArray).toJson(QJsonDocument::Indented));
+    bool doSave = QMessageBox::question(
+                      nullptr,
+                      "Save Changes",
+                      "Do you want to save your changes?",
+                      QMessageBox::Yes | QMessageBox::No
+                      ) == QMessageBox::Yes;
+
+    if (doSave) {
+        QJsonArray jsonArray;
+        for (const InventoryItem *item : m_items)
+            jsonArray.append(item->toJson());
+
+        QFile file(m_fileName);
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            file.write(QJsonDocument(jsonArray).toJson(QJsonDocument::Indented));
+        }
+
+        file.close();
+
+        // This approach was used solely to bypass the const qualifier of the method.
+        // If the method is made non-const, we can directly assign m_modified = false;
+        // without relying on const_cast.
+        const_cast<InventoryModel *>(this)->m_modified = false;
     }
-
-    file.close();
 }
 
 void InventoryModel::loadFromJson()
@@ -256,6 +274,7 @@ bool InventoryModel::insertRows(int row, int count, const QModelIndex &parent)
         m_items.push_back(item);
         emit endInsertRows();
 
+        m_modified = true;
         return true;
     }
     return false;
@@ -271,6 +290,7 @@ bool InventoryModel::removeRows(int row, int count, const QModelIndex &parent)
         emit beginRemoveRows(parent, row, row);
         m_items.removeAt(row);
         emit endRemoveRows();
+        m_modified = true;
         return true;
     }
     return false;
@@ -291,12 +311,16 @@ bool InventoryModel::setData(const QModelIndex &index, const QVariant &value, in
         default: return false;
         }
 
+        m_modified = true;
         emit dataChanged(index, index);
         return true;
     }
 
     if (role == Qt::UserRole + 1 && index.column() == 3) {
+        m_modified = true;
+        emit dataChanged(index, index);
         item->setImagePath(value.toString());
+        return true;
     }
 
     return false;
