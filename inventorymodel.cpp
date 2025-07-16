@@ -62,6 +62,7 @@ void InventoryModel::initializeItems()
     item5->setQuantity(15);
     item5->setSupplier("Tissot Switzerland");
     item5->setRating(4);
+    item5->setImagePath(":/Images/tissot-le-locle.png");
     item5->setDescription("Classic Swiss timepiece with an 80-hour power reserve, "
                           "Roman numerals, and transparent case back. Celebrates traditional watchmaking heritage.");
     m_items.push_back(item5);
@@ -71,6 +72,7 @@ void InventoryModel::initializeItems()
     item6->setQuantity(8);
     item6->setSupplier("Longines SA");
     item6->setRating(4);
+    item6->setImagePath(":/Images/longines-master-collection.png");
     item6->setDescription("Elegant dress watch featuring moonphase complication, "
                           "automatic movement, and barleycorn-pattern dial. Known for precision and refinement.");
     m_items.push_back(item6);
@@ -90,6 +92,7 @@ void InventoryModel::initializeItems()
     item8->setQuantity(14);
     item8->setSupplier("Citizen Watch Co.");
     item8->setRating(4);
+    item8->setImagePath(":/Images/citizen-eco-drive.jpg");
     item8->setDescription("Solar-powered diver's watch with ISO certification, "
                           "black polyurethane strap, and luminous markers. Environmentally friendly and reliable.");
     m_items.push_back(item8);
