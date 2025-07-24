@@ -4,6 +4,7 @@
 #include <QInputDialog>
 #include <QJsonArray>
 #include <QFile>
+#include <QFileDialog>
 #include <QJsonDocument>
 #include <QMessageBox>
 
@@ -254,7 +255,6 @@ bool InventoryModel::insertRows(int row, int count, const QModelIndex &parent)
                                     "Enter quantity: ", 0, 0);
         QString supplier = QInputDialog::getText(nullptr, "Supplier",
                                                  "Enter supplier name: ");
-        // TODO: image
         int rating = QInputDialog::getInt(nullptr, "Rating",
                                 "Enter product rating (1-5): ", 1, 1, 5);
         QString description = QInputDialog::getMultiLineText(nullptr,
@@ -264,7 +264,17 @@ bool InventoryModel::insertRows(int row, int count, const QModelIndex &parent)
         item->setProductName(productName);
         item->setQuantity(quantity);
         item->setSupplier(supplier);
-        // TODO: image
+
+        QString imagePath = QFileDialog::getOpenFileName(nullptr,
+            "Select Image", QString(), "Images (*.png *.jpg *.jpeg *.bmp *.gif)");
+        if (!imagePath.isEmpty()) {
+            QImage image(imagePath);
+            if (!image.isNull()) {
+                item->setImagePath(imagePath);
+                item->setImage(image);
+            }
+        }
+
         item->setRating(rating);
         item->setDescription(description);
 

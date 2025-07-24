@@ -19,6 +19,7 @@ public:
     void setDescription(const QString &newDescription);
     void setLastUpdated(const QDateTime &newLastUpdated);
     void setImage(const QImage &newImage);
+    void setImagePath(const QString &newImagePath);
 
     QString productName() const;
     int quantity() const;
@@ -27,12 +28,10 @@ public:
     QString description() const;
     QDateTime lastUpdated() const;
     QImage image();
+    QString imagePath() const;
 
     QJsonObject toJson() const;
     void fromJson(const QJsonObject &obj);
-
-    QString imagePath() const;
-    void setImagePath(const QString &newImagePath);
 
 private:
     QString   m_productName;
