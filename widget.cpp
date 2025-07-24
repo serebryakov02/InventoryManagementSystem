@@ -61,9 +61,20 @@ void Widget::initGUI()
 
 void Widget::on_btnAdd_clicked()
 {
+    auto selectionModel = ui->tableView->selectionModel();
+    if (!selectionModel) return;
+
+    auto selectedIndexes = selectionModel->selectedIndexes();
+
     if (m_model) {
-        int rowCount = m_model->rowCount();
-        m_model->insertRows(rowCount, 1);
+        // If user has not selected anything
+        // in the view, then add a new row at the end.
+        if (selectedIndexes.isEmpty()) {
+            int rowCount = m_model->rowCount();
+            m_model->insertRows(rowCount, 1);
+        } else { // otherwise add after the selected one.
+            m_model->insertRows(ui->tableView->currentIndex().row() + 1, 1);
+        }
     }
 }
 

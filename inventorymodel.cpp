@@ -247,9 +247,7 @@ QVariant InventoryModel::headerData(int section, Qt::Orientation orientation,
 
 bool InventoryModel::insertRows(int row, int count, const QModelIndex &parent)
 {
-    Q_UNUSED(count);
-
-    if (row == m_items.size()) {
+    if (count == 1) {
         QString productName = QInputDialog::getText(nullptr,
                                     "Product Name", "Enter product name: ");
         int quantity = QInputDialog::getInt(nullptr, "Quantity",
@@ -271,7 +269,7 @@ bool InventoryModel::insertRows(int row, int count, const QModelIndex &parent)
         item->setDescription(description);
 
         emit beginInsertRows(parent, row, row);
-        m_items.push_back(item);
+        m_items.insert(row, item);
         emit endInsertRows();
 
         m_modified = true;
