@@ -30,6 +30,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         supplierdelegate.h supplierdelegate.cpp
         resources.qrc
         imagedelegate.h imagedelegate.cpp
+        inventoryitemdetailswidget.h inventoryitemdetailswidget.cpp inventoryitemdetailswidget.ui
 
     )
 # Define target properties for Android with Qt 6 as:

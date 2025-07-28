@@ -19,7 +19,7 @@
      <property name="orientation">
       <enum>Qt::Orientation::Horizontal</enum>
      </property>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -85,7 +85,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="widget" native="true"/>
+     <widget class="QWidget" name="wgtRightPane" native="true"/>
     </widget>
    </item>
   </layout>

@@ -210,6 +210,19 @@ void InventoryModel::loadFromJson()
     }
 }
 
+void InventoryModel::setDescriptionAt(int row, const QString &description)
+{
+    if (row >= 0 && row < m_items.size()) {
+        m_items.at(row)->setDescription(description);
+        m_modified = true;
+    }
+}
+
+QVector<InventoryItem *> InventoryModel::items() const
+{
+    return m_items;
+}
+
 int InventoryModel::rowCount(const QModelIndex &parent) const
 {
     return m_items.size();

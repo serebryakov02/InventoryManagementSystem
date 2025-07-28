@@ -4,6 +4,8 @@
 #include "stardelegate.h"
 #include "supplierdelegate.h"
 #include "imagedelegate.h"
+#include "inventoryitemdetailswidget.h"
+#include "inventoryitem.h"
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QSortFilterProxyModel>
@@ -12,6 +14,7 @@ Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget), m_model(nullptr)
     , m_supplierDelegate(nullptr)
+    , m_rightPaneWidget(nullptr)
 {
     ui->setupUi(this);
     initGUI();
@@ -33,6 +36,8 @@ void Widget::initGUI()
     proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
     proxyModel->setFilterKeyColumn(2);
     ui->tableView->setModel(proxyModel);
+    QObject::connect(ui->tableView->selectionModel(),
+        &QItemSelectionModel::selectionChanged, this, &Widget::on_tableSelection_changed);
 
     QObject::connect(ui->txtSearch, &QLineEdit::textChanged, proxyModel,
                      &QSortFilterProxyModel::setFilterFixedString);
@@ -56,7 +61,22 @@ void Widget::initGUI()
     ui->tableView->verticalHeader()->setVisible(false);
     ui->tableView->verticalHeader()->setDefaultSectionSize(72);
 
-    resize(1024, 768);
+    m_rightPaneWidget = new InventoryItemDetailsWidget(this);
+    //ui->splitter->addWidget(m_rightPaneWidget);
+    auto vLayout = new QVBoxLayout(ui->wgtRightPane);
+    vLayout->addWidget(m_rightPaneWidget);
+    ui->wgtRightPane->setLayout(vLayout);
+    QObject::connect(m_rightPaneWidget, &InventoryItemDetailsWidget::descriptionChanged,
+        this, &Widget::on_detailedDescription_changed);
+
+    QModelIndex currentIndex = ui->tableView->model()->index(9, 0);
+    if (currentIndex.isValid()) {
+        ui->tableView->setCurrentIndex(currentIndex);
+        ui->tableView->selectionModel()->select(currentIndex,
+                                                QItemSelectionModel::ClearAndSelect);
+    }
+
+    showFullScreen();
 }
 
 void Widget::on_btnAdd_clicked()
@@ -127,6 +147,25 @@ void Widget::on_btnManage_clicked()
 
         if (m_supplierDelegate) // should never be nullptr
             m_supplierDelegate->setSupplierList(m_supplierList);
+    }
+}
+
+void Widget::on_tableSelection_changed()
+{
+    QModelIndex currentIndex = ui->tableView->currentIndex();
+    if (m_model) {
+        InventoryItem *item = m_model->items().at(currentIndex.row());
+        if (item && m_rightPaneWidget) {
+            m_rightPaneWidget->setItemInfo(item);
+        }
+    }
+}
+
+void Widget::on_detailedDescription_changed(const QString &detailedDescription)
+{
+    QModelIndex currentIndex = ui->tableView->currentIndex();
+    if (currentIndex.isValid() && m_model) {
+        m_model->setDescriptionAt(currentIndex.row(), detailedDescription);
     }
 }
 

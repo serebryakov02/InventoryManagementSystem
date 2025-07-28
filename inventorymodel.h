@@ -28,6 +28,10 @@ public:
     void saveDataToJson() const;
     void loadFromJson();
 
+    void setDescriptionAt(int row, const QString &description);
+
+    QVector<InventoryItem *> items() const;
+
 private:
     QVector<InventoryItem*> m_items;
     void initializeItems(); // TODO: Replace it with the JSON file
