@@ -12,6 +12,8 @@ InventoryModel::InventoryModel(QObject *parent)
     : QAbstractTableModel{parent}, m_items(),
     m_fileName("inventory.json"), m_modified(false)
 {
+    // Uncomment this method call and comment out the loadFromJson call
+    // to generate the JSON file in the working directory if it does not exist.
     //initializeItems();
     loadFromJson();
 }
