@@ -1,0 +1,110 @@
+[
+    {
+        "description": "Elegant men's mechanical watch featuring a stainless steel case, blue sunburst dial, and automatic movement. Known for its craftsmanship and classic design. Granny's Gift.",
+        "imagePath": ":/Images/SRPB41J1.jpg",
+        "lastUpdated": "2025-07-16T11:49:36",
+        "productName": "Seiko Presage Horloge SRPB41J1",
+        "quantity": 10,
+        "rating": 4,
+        "supplier": "Seiko Japan"
+    },
+    {
+        "description": "Iconic chronograph with manual winding movement, hesalite crystal, and tachymeter bezel. Famously worn during Apollo moon missions. ",
+        "imagePath": ":/Images/omega-speedmaster-moonwatch-professional.png",
+        "lastUpdated": "2025-07-16T11:49:36",
+        "productName": "Omega Speedmaster Moonwatch Professional",
+        "quantity": 7,
+        "rating": 5,
+        "supplier": "Omega SA"
+    },
+    {
+        "description": "Legendary diving watch featuring a black Cerachrom bezel, automatic movement, and 300-meter water resistance. A benchmark in luxury sports timepieces.",
+        "imagePath": ":/Images/rolex-submariner-date.png",
+        "lastUpdated": "2025-07-16T11:49:36",
+        "productName": "Rolex Submariner Date 126610LN",
+        "quantity": 5,
+        "rating": 5,
+        "supplier": "Rolex Geneva"
+    },
+    {
+        "description": "Stylish automatic watch with sapphire case back, day-date function, and a clean silver dial. Suited for both professional and casual wear.",
+        "imagePath": ":/Images/tag-heuer carrera-calibre-5.png",
+        "lastUpdated": "2025-07-16T11:49:36",
+        "productName": "Tag Heuer Carrera Calibre 5",
+        "quantity": 12,
+        "rating": 4,
+        "supplier": "TAG Heuer SA"
+    },
+    {
+        "description": "Classic Swiss timepiece with an 80-hour power reserve, Roman numerals, and transparent case back. Celebrates traditional watchmaking heritage.",
+        "imagePath": ":/Images/tissot-le-locle.png",
+        "lastUpdated": "2025-07-16T11:49:36",
+        "productName": "Tissot Le Locle Powermatic 80",
+        "quantity": 15,
+        "rating": 4,
+        "supplier": "Tissot Switzerland"
+    },
+    {
+        "description": "Elegant dress watch featuring moonphase complication, automatic movement, and barleycorn-pattern dial. Known for precision and refinement.",
+        "imagePath": ":/Images/longines-master-collection.png",
+        "lastUpdated": "2025-07-16T11:49:36",
+        "productName": "Longines Master Collection L2.909.4.78.3",
+        "quantity": 8,
+        "rating": 4,
+        "supplier": "Longines SA"
+    },
+    {
+        "description": "Durable carbon-core guard structure, analog-digital hybrid display, and 200-meter water resistance. A minimalist yet rugged design.",
+        "imagePath": ":/Images/casio-g-shock ga-2100-1A1.png",
+        "lastUpdated": "2025-07-16T11:49:36",
+        "productName": "Casio G-Shock GA-2100-1A1",
+        "quantity": 20,
+        "rating": 4,
+        "supplier": "Casio Tokyo"
+    },
+    {
+        "description": "Solar-powered diver's watch with ISO certification, black polyurethane strap, and luminous markers. Environmentally friendly and reliable.",
+        "imagePath": ":/Images/citizen-eco-drive.jpg",
+        "lastUpdated": "2025-07-16T11:49:36",
+        "productName": "Citizen Eco-Drive Promaster Diver BN0150-28E",
+        "quantity": 14,
+        "rating": 4,
+        "supplier": "Citizen Watch Co."
+    },
+    {
+        "description": "Military-inspired manual wind watch with matte stainless steel case, durable NATO strap, and 80-hour power reserve. A rugged, utilitarian classic.",
+        "imagePath": ":/Images/hamilton-khaki.png",
+        "lastUpdated": "2025-07-16T11:49:36",
+        "productName": "Hamilton Khaki Field Mechanical H69439931",
+        "quantity": 9,
+        "rating": 4,
+        "supplier": "Hamilton Watch Company"
+    },
+    {
+        "description": "Pilot’s chronograph with in-house B01 automatic movement, slide rule bezel, and a high-contrast dial. Celebrated for aviation heritage and engineering.",
+        "imagePath": ":/Images/no_image.jpg",
+        "lastUpdated": "2025-07-16T11:49:36",
+        "productName": "Breitling Navitimer B01 Chronograph 43",
+        "quantity": 4,
+        "rating": 5,
+        "supplier": "Breitling SA"
+    },
+    {
+        "description": "Affordable automatic diving watch with a stainless steel case, unidirectional bezel, and exhibition case back. Offers solid value for entry-level collectors.",
+        "imagePath": ":/Images/no_image.jpg",
+        "lastUpdated": "2025-07-16T11:49:36",
+        "productName": "Invicta Pro Diver 8926OB",
+        "quantity": 18,
+        "rating": 4,
+        "supplier": "Invicta Watch Group"
+    },
+    {
+        "description": "Casual quartz chronograph with an interchangeable strap system, Indiglo night-light, and classic dial layout. Known for practicality and affordability.",
+        "imagePath": "/Users/mykytaserebriakov/Downloads/Timex Weekender Chronograph TW2R42600.png",
+        "lastUpdated": "2025-07-16T11:49:36",
+        "productName": "Timex Weekender Chronograph TW2R42600",
+        "quantity": 22,
+        "rating": 3,
+        "supplier": "Timex USA"
+    }
+]
